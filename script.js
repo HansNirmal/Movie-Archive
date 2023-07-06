@@ -6,9 +6,9 @@ const form = document.getElementById('form')
 const search = document.getElementById('search')
 const main = document.getElementById('main')
 
-//Get Initial Movies
-
+//Get Movies List
 getMovies(API_URL)
+
 
 async function getMovies (url) {
     const res = await fetch (url)
@@ -17,15 +17,20 @@ async function getMovies (url) {
     showMovies(data.results)
 }
 
-function showMovies(movies){
-    main.innerHTML = ''
 
+// Display Movies List
+function showMovies(movies){
+    main.innerHTML = '' //set main element to empty
+
+    //populate the movies data in html cards/fields
     movies.forEach((movie) => {
-        const { title, poster_path, vote_average, overview } = movie
+        const { title, poster_path, vote_average, overview } = movie //destructure and extract the following data
         
-        const movieEl = document.createElement('div')
-        movieEl.classList.add('movie')
-        movieEl.innerHTML = `
+        const movieElement = document.createElement('div') //create a div
+        movieElement.classList.add('movie') //add a class named - movie to the div
+
+        //movie class Div : content
+        movieElement.innerHTML = `
         
             <img src="${IMG_PATH + poster_path}" alt="${title}">
             <div class="movie-info">
@@ -38,10 +43,12 @@ function showMovies(movies){
                 ${overview}
             </div>`
 
-        main.appendChild(movieEl)
+        main.appendChild(movieElement)
     })
 }
 
+
+//Function to change rating color
 function getClassByRate(vote){
     if (vote >= 8) {
         return 'green'
@@ -50,6 +57,8 @@ function getClassByRate(vote){
     } else return 'red';
 }
 
+
+//Function to search movies
 form.addEventListener('submit', (e) =>{
     e.preventDefault()
 
